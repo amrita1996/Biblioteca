@@ -1,13 +1,14 @@
+import view.Output;
+
 public class LibraryManagementSystem {
     private final String welcomeMessage = "Welcome !";
+    private Output output;
 
-    LibraryManagementSystem() {
-
+    LibraryManagementSystem(Output output) {
+        this.output = output;
     }
 
-    public String getWelcomeMessage() {
-        return welcomeMessage;
+    public void printWelcomeMessage() {
+        output.print(welcomeMessage);
     }
-
-
 }

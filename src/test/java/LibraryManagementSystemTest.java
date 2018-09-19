@@ -1,17 +1,19 @@
+import view.Output;
+import view.OutputDriver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class LibraryManagementSystemTest {
 
     @DisplayName("should return the welcome message")
     @Test
     public void shouldReturnMessage() {
-        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem();
-        String actual = libraryManagementSystem.getWelcomeMessage();
-        String expected =  "Welcome !";
-
-        assertEquals(expected,actual);
+        OutputDriver output = mock(OutputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output);
+        libraryManagementSystem.printWelcomeMessage();
+        verify(output).print("Welcome !");
     }
 }
