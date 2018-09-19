@@ -4,6 +4,6 @@ public class OutputDriver implements Output{
 
     @Override
     public void print(Object object) {
-        System.out.print(object);
+        System.out.println(object);
     }
 }

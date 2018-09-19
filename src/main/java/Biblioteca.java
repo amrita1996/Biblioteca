@@ -12,6 +12,7 @@ public class Biblioteca {
     private void start() {
         LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(new OutputDriver());
         libraryManagementSystem.printWelcomeMessage();
+        libraryManagementSystem.printListOfBooks();
     }
 
 
