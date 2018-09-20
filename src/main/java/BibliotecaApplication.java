@@ -1,12 +1,13 @@
-import view.Output;
 import view.OutputDriver;
+import controller.*;
 
-public class Biblioteca {
+//An application that drives the library management system.
+public class BibliotecaApplication {
 
 
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca();
-        biblioteca.start();
+        BibliotecaApplication bibliotecaApplication = new BibliotecaApplication();
+        bibliotecaApplication.start();
     }
 
     private void start() {
@@ -14,8 +15,6 @@ public class Biblioteca {
         libraryManagementSystem.printWelcomeMessage();
         libraryManagementSystem.printListOfBooks();
     }
-
-
 
 
 }

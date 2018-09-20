@@ -1,6 +1,7 @@
 package view;
 
-public class OutputDriver implements Output{
+//A class that prints objects
+public class OutputDriver implements Output {
 
     @Override
     public void print(Object object) {
