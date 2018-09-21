@@ -14,8 +14,8 @@ class LibraryTest {
     @Test
     void toStringTest() {
         Library library = new Library(new BookGenerator().addBooks());
-        String expected = "[Harry potter and the prisoner of Askaban\n" +
-                ", Harry potter and the order of pheonix\n" +
+        String expected = "[Harry potter and the prisoner of Askaban J K Rouling 2003\n" +
+                ", Harry potter and the order of pheonix J K Rouling 2003\n" +
                 "]";
         assertEquals(expected,library.toString());
     }
@@ -32,8 +32,8 @@ class LibraryTest {
     @Test
     void getTitlesOfBooksTest() {
         Library library = new Library(new BookGenerator().addBooks());
-        List<String> titles = library.getTitlesOfBooks();
-        List<String> expected = Arrays.asList("Harry potter and the prisoner of Askaban", "Harry potter and the order of pheonix");
+        List<String> titles = library.getDetailsOfBooks();
+        List<String> expected = Arrays.asList("Harry potter and the prisoner of Askaban J K Rouling 2003", "Harry potter and the order of pheonix J K Rouling 2003");
         assertEquals(expected,titles);
     }
 }

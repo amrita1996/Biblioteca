@@ -32,10 +32,10 @@ public class Library {
         return "" + books;
     }
 
-    public List<String> getTitlesOfBooks() {
+    public List<String> getDetailsOfBooks() {
         List<String> titles = new ArrayList<>();
         for (Book book : books) {
-            titles.add(book.getTitle());
+            titles.add("\n"+book.getTitle()+"-"+book.getAuthor()+"-"+book.getYear());
         }
         return titles;
     }

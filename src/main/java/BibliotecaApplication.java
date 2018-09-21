@@ -1,5 +1,6 @@
+import controller.LibraryManagementSystem;
+import view.InputDriver;
 import view.OutputDriver;
-import controller.*;
 
 //An application that drives the library management system.
 public class BibliotecaApplication {
@@ -11,9 +12,9 @@ public class BibliotecaApplication {
     }
 
     private void start() {
-        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(new OutputDriver());
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(new OutputDriver(),new InputDriver());
         libraryManagementSystem.printWelcomeMessage();
-        libraryManagementSystem.printListOfBooks();
+        libraryManagementSystem.menuOperation();
     }
 
 
