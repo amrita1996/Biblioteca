@@ -52,7 +52,7 @@ public class Library {
 
     public boolean returnBook(String requestedTitle) {
         Book requestedBook = new Book(requestedTitle,"unknown Author", new Year(0));
-        if(allBooks.contains(requestedBook)) {
+        if(allBooks.contains(requestedBook) && !currentBooks.contains(requestedBook)) {
             currentBooks.add(requestedBook);
             return true;
         }

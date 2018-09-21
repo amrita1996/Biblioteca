@@ -72,4 +72,40 @@ class LibraryTest {
 
 
     }
+
+    @DisplayName("Should return true for returning a book that was checked out")
+    @Test
+    void returnTestTrue() {
+        Library library = new Library(new BookGenerator().addBooks());
+        assertAll(
+                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban")),
+                ()->assertTrue(library.returnBook("Harry potter and the prisoner of Askaban"))
+        );
+
+
+    }
+
+    @DisplayName("Should return false for returning a book that wasn't checked out but is part of the list of books")
+    @Test
+    void returnTestFalseBookNotCheckedOut() {
+        Library library = new Library(new BookGenerator().addBooks());
+        assertAll(
+                ()-> assertFalse(library.returnBook("Harry potter and the prisoner of Askaban"))
+
+        );
+
+
+    }
+
+    @DisplayName("Should return false for returning a book that wasn't part of the list of books")
+    @Test
+    void returnTestFalseBookNotPresentInLibrary() {
+        Library library = new Library(new BookGenerator().addBooks());
+        assertAll(
+                ()-> assertFalse(library.returnBook("Harry potter and the prisoner of Askaban...."))
+
+        );
+
+
+    }
 }

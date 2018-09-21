@@ -55,7 +55,7 @@ public enum Menu {
 
         @Override
         void print(Output output) {
-
+            output.print(this.ordinal()+". "+getString());
         }
     },
     DEFAULT("Select a valid option!") {
@@ -65,6 +65,7 @@ public enum Menu {
         }
 
         void print(Output output) {
+
         }
 
     };

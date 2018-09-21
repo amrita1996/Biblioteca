@@ -88,7 +88,7 @@ public class LibraryManagementSystemTest {
 
     }
 
-    @DisplayName("should print a menu and checkout a book that exists and print checkout successfull")
+    @DisplayName("should print a menu and shouldn't checkout a book that doesn't exist and print checkout unsuccessfull")
     @Test
     public void menuOperationToCheckoutInValidBook() {
         OutputDriver output = mock(OutputDriver.class);
@@ -100,6 +100,54 @@ public class LibraryManagementSystemTest {
 
         verify(output).print("Enter the title of the book to be checked out : ");
         verify(output).print("That book is not available.\n");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and return a book that was checked out and print thank you for returning")
+    @Test
+    public void menuOperationToReturnValidBook() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Enter the title of the book to be returned : ");
+        verify(output).print("Thank you for returning the book.\n");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and shouldn't return a book that wasn't checked out and print return unsuccessfull")
+    @Test
+    public void menuOperationToReturnInValidBook() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Enter the title of the book to be returned : ");
+        verify(output).print("That is not a valid book to return.\n");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and shouldn't return a book that isn't present and print return unsuccessfull")
+    @Test
+    public void menuOperationToReturnInValidBookNotPresent() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban...").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Enter the title of the book to be returned : ");
+        verify(output).print("That is not a valid book to return.\n");
         verify(output).print("Quit !");
 
     }
