@@ -25,24 +25,25 @@ public class LibraryManagementSystem {
 
 
     public void menuOperation() {
-        String menu = "List of options\n1. List books\n0. Quit\nChoose an option : ";
-        output.print(menu);
-        performOperation();
+        int option;
+        do {
+            printMenu();
+            option = getUserInput();
+            option = Menu.values().length-1 <= option ? Menu.values().length-1 : option;
+            menu[option].perform(library,output,input);
+        } while (option != 0);
+    }
+
+    private void printMenu() {
+        output.print("\n\nMENU\n");
+        for (Menu menuOption : menu) {
+            menuOption.print(output);
+        }
+        output.print("Choose an option : ");
     }
 
     private int getUserInput() {
         return Integer.parseInt(input.read());
     }
-
-    private void performOperation() {
-        int input;
-        do {
-            input = getUserInput();
-            input = Menu.values().length-1 <= input ? Menu.values().length-1 : input;
-            menu[input].perform(library,output);
-        } while (input != 0);
-    }
-
-
 
 }

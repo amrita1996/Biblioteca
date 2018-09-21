@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
 
@@ -35,5 +35,41 @@ class LibraryTest {
         List<String> titles = library.getDetailsOfBooks();
         List<String> expected = Arrays.asList("Harry potter and the prisoner of Askaban J K Rouling 2003", "Harry potter and the order of pheonix J K Rouling 2003");
         assertEquals(expected,titles);
+    }
+
+    @DisplayName("Should return true for checkout for a book that exists in the library")
+    @Test
+    void checkoutTestTrue() {
+        Library library = new Library(new BookGenerator().addBooks());
+        List<String> beforeActual = library.getDetailsOfBooks();
+        List<String> beforeExpected = Arrays.asList("\nHarry potter and the prisoner of Askaban-J K Rouling-2003","\nHarry potter and the order of pheonix-J K Rouling-2003");
+        List<String> afterActual = library.getDetailsOfBooks();
+        List<String> afterExpected = Arrays.asList("\nHarry potter and the order of pheonix-J K Rouling-2003");
+        assertAll(
+                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban")),
+                ()-> assertEquals(beforeExpected,beforeActual),
+                ()-> assertEquals(afterExpected,afterActual),
+                ()-> assertNotEquals(afterActual,beforeActual)
+        );
+
+
+    }
+
+    @DisplayName("Should return false for checkout for a book that doesn't exist in the library")
+    @Test
+    void checkoutTestFalse() {
+        Library library = new Library(new BookGenerator().addBooks());
+        List<String> beforeActual = library.getDetailsOfBooks();
+        List<String> beforeExpected = Arrays.asList("\nHarry potter and the prisoner of Askaban-J K Rouling-2003","\nHarry potter and the order of pheonix-J K Rouling-2003");
+        List<String> afterActual = library.getDetailsOfBooks();
+        List<String> afterExpected = Arrays.asList("\nHarry potter and the prisoner of Askaban-J K Rouling-2003","\nHarry potter and the order of pheonix-J K Rouling-2003");
+        assertAll(
+                ()-> assertFalse(library.checkout("Harry potter and the prisoner of Askaban...")),
+                ()-> assertEquals(beforeExpected,beforeActual),
+                ()-> assertEquals(afterExpected,afterActual),
+                ()-> assertEquals(afterActual,beforeActual)
+        );
+
+
     }
 }

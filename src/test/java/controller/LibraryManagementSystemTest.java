@@ -1,5 +1,7 @@
 package controller;
 
+import model.Book;
+import model.BookGenerator;
 import view.InputDriver;
 import view.OutputDriver;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class LibraryManagementSystemTest {
 
@@ -20,15 +23,84 @@ public class LibraryManagementSystemTest {
         verify(output).print("Welcome !");
     }
 
-    @DisplayName("should print a menu")
+    @DisplayName("should print a menu and print list of books when 1 is pressed")
     @Test
-    public void menuOperation() {
+    public void menuOperationToPrintListOfBooks() {
         OutputDriver output = mock(OutputDriver.class);
         InputDriver input = mock(InputDriver.class);
-        String menu = "List of options\n1. List books\nx. Quit\nChoose an option : ";
         LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("1").thenReturn("0");
         libraryManagementSystem.menuOperation();
-        verify(output).print(menu);
+
+        for (Book book:new BookGenerator().addBooks()) {
+          verify(output).print("\n"+book.getTitle(),book.getAuthor(),book.getYear().toString());
+        }
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and print quit when 0 is pressed")
+    @Test
+    public void menuOperationToPrintQuit() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print(Menu.QUIT.ordinal()+". "+Menu.QUIT.getString());
+        verify(output).print(Menu.PRINT_BOOKS.ordinal()+". "+Menu.PRINT_BOOKS.getString());
+        verify(output).print("Choose an option : ");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and print choose a valid option when wrong input is pressed")
+    @Test
+    public void menuOperationToPrintChooseValidOption() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("5").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Select a valid option!");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and checkout a book that exists and print checkout successfull")
+    @Test
+    public void menuOperationToCheckoutValidBook() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Enter the title of the book to be checked out : ");
+        verify(output).print("Thank you! Enjoy the book.\n");
+        verify(output).print("Quit !");
+
+    }
+
+    @DisplayName("should print a menu and checkout a book that exists and print checkout successfull")
+    @Test
+    public void menuOperationToCheckoutInValidBook() {
+        OutputDriver output = mock(OutputDriver.class);
+        InputDriver input = mock(InputDriver.class);
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+
+        when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban....").thenReturn("0");
+        libraryManagementSystem.menuOperation();
+
+        verify(output).print("Enter the title of the book to be checked out : ");
+        verify(output).print("That book is not available.\n");
+        verify(output).print("Quit !");
 
     }
 
