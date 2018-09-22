@@ -1,9 +1,11 @@
 package view;
 
-public interface Output {
-    public void print(Object object);
+import java.util.List;
 
-    public void print(Object first, Object second, Object third);
+public interface Output {
+    public void print(String string);
+
+    public void print(List<String> strings);
 
     void printHorizontalLine(int number);
 }

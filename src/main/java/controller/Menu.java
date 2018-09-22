@@ -18,19 +18,16 @@ public enum Menu {
     PRINT_BOOKS("Print the list of books") {
         @Override
         public void perform(Library library,Output output, Input input) {
-            output.print("Title","Author","Year");
+            output.print("Title-Author-Year\n");
             output.printHorizontalLine(110);
-            for (String string : library.getDetailsOfBooks()) {
-                String strings[] = string.split("-");
-                output.print(strings[0], strings[1], strings[2]);
-            }
+            output.print(library.getDetailsOfBooks());
         }
 
         void print(Output output) {
             output.print(this.ordinal()+". "+getString());
         }
     },
-    CHECKOUT("Checkout a book") {
+    CHECKOUT_BOOK("Checkout a book") {
         @Override
         void perform(Library library, Output output, Input input) {
             output.print("Enter the title of the book to be checked out : ");
@@ -44,7 +41,7 @@ public enum Menu {
             output.print(this.ordinal()+". "+getString());
         }
     },
-    RETURN("Return a book") {
+    RETURN_BOOK("Return a book") {
         @Override
         void perform(Library library, Output output, Input input) {
             output.print("Enter the title of the book to be returned : ");

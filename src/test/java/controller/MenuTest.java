@@ -1,6 +1,5 @@
 package controller;
 
-import model.Book;
 import model.BookGenerator;
 import model.Library;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +9,6 @@ import view.InputDriver;
 import view.Output;
 import view.OutputDriver;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +37,7 @@ class MenuTest {
     @Test
     void printMessageForCheckOut() {
         Output output = mock(OutputDriver.class);
-        Menu menu = Menu.CHECKOUT;
+        Menu menu = Menu.CHECKOUT_BOOK;
         menu.print(output);
         verify(output).print(menu.ordinal()+". "+menu.getString());
     }
@@ -54,9 +52,8 @@ class MenuTest {
         Library library = new Library(new BookGenerator().addBooks());
         Menu menu = Menu.PRINT_BOOKS;
         menu.perform(library, output,input);
-        for (Book book : new BookGenerator().addBooks()) {
-            verify(output).print("\n" + book.getTitle(), book.getAuthor(), book.getYear().toString());
-        }
+        verify(output).print("Title-Author-Year\n");
+        verify(output).print(library.getDetailsOfBooks());
 
     }
 
@@ -92,7 +89,7 @@ class MenuTest {
         Output output = mock(OutputDriver.class);
         Input input = mock(InputDriver.class);
         Library library = new Library(new BookGenerator().addBooks());
-        Menu menu = Menu.CHECKOUT;
+        Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         menu.perform(library, output,input);
         verify(output).print("Thank you! Enjoy the book.\n");
@@ -106,7 +103,7 @@ class MenuTest {
         Output output = mock(OutputDriver.class);
         Input input = mock(InputDriver.class);
         Library library = new Library(new BookGenerator().addBooks());
-        Menu menu = Menu.CHECKOUT;
+        Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban.....");
         menu.perform(library, output,input);
         verify(output).print("That book is not available.\n");
@@ -120,8 +117,8 @@ class MenuTest {
         Output output = mock(OutputDriver.class);
         Input input = mock(InputDriver.class);
         Library library = new Library(new BookGenerator().addBooks());
-        Menu menuCheckout = Menu.CHECKOUT;
-        Menu menuReturn = Menu.RETURN;
+        Menu menuCheckout = Menu.CHECKOUT_BOOK;
+        Menu menuReturn = Menu.RETURN_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
         menuCheckout.perform(library, output,input);
         menuReturn.perform(library,output,input);
@@ -136,7 +133,7 @@ class MenuTest {
         Output output = mock(OutputDriver.class);
         Input input = mock(InputDriver.class);
         Library library = new Library(new BookGenerator().addBooks());
-        Menu menu = Menu.RETURN;
+        Menu menu = Menu.RETURN_BOOK;
         when(input.read()).thenReturn("Harry potter");
         menu.perform(library, output,input);
         verify(output).print("That is not a valid book to return.\n");

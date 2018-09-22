@@ -7,9 +7,10 @@ import view.OutputDriver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 public class LibraryManagementSystemTest {
 
@@ -29,13 +30,18 @@ public class LibraryManagementSystemTest {
         OutputDriver output = mock(OutputDriver.class);
         InputDriver input = mock(InputDriver.class);
         LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(output, input);
+        List<String> books = new ArrayList<>();
+        for (Book book:new BookGenerator().addBooks()) {
+            books.add(book.toString());
+        }
 
         when(input.read()).thenReturn("1").thenReturn("0");
         libraryManagementSystem.menuOperation();
 
-        for (Book book:new BookGenerator().addBooks()) {
-          verify(output).print("\n"+book.getTitle(),book.getAuthor(),book.getYear().toString());
-        }
+        verify(output,times(2)).print("\n\nMENU\n");
+
+        verify(output).print(books);
+
         verify(output).print("Quit !");
 
     }

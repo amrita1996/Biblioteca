@@ -12,7 +12,7 @@ class BookTest {
     @Test
     void toStringTest() {
         Book book = new Book("Harry potter and the prisoner of Askaban","J K Rouling", new Year(2003));
-        String expected = "Harry potter and the prisoner of Askaban J K Rouling 2003\n";
+        String expected = "Harry potter and the prisoner of Askaban-J K Rouling-2003\n";
         assertEquals(expected,book.toString());
     }
 
@@ -24,11 +24,4 @@ class BookTest {
         assertEquals(book1,book2);
     }
 
-    @DisplayName("Should return the title")
-    @Test
-    void getTitleTest() {
-        String actual = new Book("Harry Potter","J K Rouling", new Year(2003)).getTitle();
-        String expected = "Harry Potter";
-        assertEquals(expected,actual);
-    }
 }

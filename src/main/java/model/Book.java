@@ -16,16 +16,9 @@ public class Book {
 
     @Override
     public String toString() {
-        return "" + title + " " + author + " " + year + "\n";
+        return "" + title + "-" + author + "-" + year + "\n";
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public Year getYear() {
-        return year;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,7 +33,4 @@ public class Book {
         return Objects.hash(title);
     }
 
-    public String getTitle() {
-        return title;
-    }
 }

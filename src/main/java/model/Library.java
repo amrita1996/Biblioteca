@@ -36,7 +36,7 @@ public class Library {
     public List<String> getDetailsOfBooks() {
         List<String> titles = new ArrayList<>();
         for (Book book : currentBooks) {
-            titles.add("\n" + book.getTitle() + "-" + book.getAuthor() + "-" + book.getYear());
+            titles.add(book.toString());
         }
         return titles;
     }
