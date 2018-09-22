@@ -9,7 +9,7 @@ public class CheckoutBookCommand implements Command {
     public void perform(Library library, Output output, Input input) {
         output.print("Enter the title of the book to be checked out : ");
         String requestedTitle = input.read();
-        String status = library.checkout(requestedTitle) ? "Thank you! Enjoy the book.\n" : "That book is not available.\n";
+        String status = library.checkoutBook(requestedTitle) ? "Thank you! Enjoy the book.\n" : "That book is not available.\n";
         output.print(status);
     }
 }

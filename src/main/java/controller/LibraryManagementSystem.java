@@ -1,6 +1,6 @@
 package controller;
 
-import model.BookGenerator;
+import model.BookAndMovieGenerator;
 import model.Library;
 import view.Input;
 import view.Output;
@@ -13,10 +13,10 @@ public class LibraryManagementSystem {
     private Library library;
     Menu menu[] = Menu.values();
 
-    public LibraryManagementSystem(Output output, Input input) {
+    public LibraryManagementSystem(Output output, Input input,Library library) {
         this.output = output;
         this.input = input;
-        this.library = new Library(new BookGenerator().addBooks());
+        this.library = library;
     }
 
     public void printWelcomeMessage() {

@@ -1,4 +1,6 @@
 import controller.LibraryManagementSystem;
+import model.BookAndMovieGenerator;
+import model.Library;
 import view.InputDriver;
 import view.OutputDriver;
 
@@ -12,7 +14,10 @@ public class BibliotecaApplication {
     }
 
     private void start() {
-        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(new OutputDriver(),new InputDriver());
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(
+                new OutputDriver(),
+                new InputDriver(),
+                new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies()));
         libraryManagementSystem.printWelcomeMessage();
         libraryManagementSystem.menuOperation();
    }

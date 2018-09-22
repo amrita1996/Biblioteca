@@ -1,6 +1,6 @@
 package controller;
 
-import model.BookGenerator;
+import model.BookAndMovieGenerator;
 import model.Library;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ class ReturnBookCommandTest {
     void init() {
         output = mock(Output.class);
         input = mock(Input.class);
-        library = new Library(new BookGenerator().addBooks());
+        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
         checkoutBookCommand = new CheckoutBookCommand();
         returnBookCommand = new ReturnBookCommand();
     }

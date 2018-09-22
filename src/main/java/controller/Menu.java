@@ -15,6 +15,8 @@ public enum Menu {
     PRINT_BOOKS("Print the list of books",new PrintBooksCommand()),
     CHECKOUT_BOOK("Checkout a book",new CheckoutBookCommand()),
     RETURN_BOOK("Return a book",new ReturnBookCommand()),
+    PRINT_MOVIES("Print the list of movies",new PrintMoviesCommand()),
+    CHECKOUT_MOVIE("Checkout a movie",new CheckoutMovieCommand()),
     DEFAULT("Select a valid option!",null) {
         @Override
         public void perform(Library library, Output output, Input input) {

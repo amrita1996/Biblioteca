@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 import view.Input;
 import view.Output;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class PrintBooksCommandTest {
+class PrintMoviesCommandTest {
 
     @DisplayName("Should display list of books")
     @Test
@@ -18,11 +19,11 @@ class PrintBooksCommandTest {
         Output output = mock(Output.class);
         Input input = mock(Input.class);
         Library library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
-        PrintBooksCommand printBooksCommand = new PrintBooksCommand();
+        PrintMoviesCommand printMoviesCommand = new PrintMoviesCommand();
 
-        printBooksCommand.perform(library,output,input);
+        printMoviesCommand.perform(library,output,input);
 
-        verify(output).splitAndPrint("Title-Author-Year\n");
-        verify(output).print(library.getDetailsOfBooks());
+        verify(output).splitAndPrint("Name-Year-Director-Rating");
+        verify(output).print(library.getDetailsOfMovies());
     }
 }

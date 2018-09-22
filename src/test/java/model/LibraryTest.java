@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,60 +10,43 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
+    Library library;
 
-    @DisplayName("Should display the list of books in string format")
-    @Test
-    void toStringTest() {
-        Library library = new Library(new BookGenerator().addBooks());
-        String expected = "[Harry potter and the prisoner of Askaban-J K Rouling-2003\n" +
-                ", Harry potter and the order of pheonix-J K Rouling-2003\n" +
-                "]";
-        assertEquals(expected,library.toString());
+    @BeforeEach
+    public void init() {
+        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
+
     }
 
 
     @DisplayName("two libraries with same list of books should be equal")
     @Test
     void equalsTest() {
-        Library library1 = new Library(new BookGenerator().addBooks());
-        Library library2 = new Library(new BookGenerator().addBooks());
-        assertEquals(library1,library2);
+        Library library2 = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
+        assertEquals(library,library2);
     }
 
     @Test
-    void getTitlesOfBooksTest() {
-        Library library = new Library(new BookGenerator().addBooks());
+    void getListOfBooksTest() {
         List<String> titles = library.getDetailsOfBooks();
         List<String> expected = Arrays.asList("Harry potter and the prisoner of Askaban-J K Rouling-2003\n", "Harry potter and the order of pheonix-J K Rouling-2003\n");
         assertEquals(expected,titles);
     }
 
-    @DisplayName("Should return true for checkout for a book that exists in the library")
+    @DisplayName("Should return true for checkoutBook for a book that exists in the library")
     @Test
     void checkoutTestTrue() {
-        Library library = new Library(new BookGenerator().addBooks());
-        List<String> beforeActual = library.getDetailsOfBooks();
-        List<String> beforeExpected = Arrays.asList("Harry potter and the prisoner of Askaban-J K Rouling-2003\n","Harry potter and the order of pheonix-J K Rouling-2003\n");
-        assertTrue(library.checkout("Harry potter and the prisoner of Askaban"));
+        assertTrue(library.checkoutBook("Harry potter and the prisoner of Askaban"));
 
 
 
     }
 
-    @DisplayName("Should return false for checkout for a book that doesn't exist in the library")
+    @DisplayName("Should return false for checkoutBook for a book that doesn't exist in the library")
     @Test
     void checkoutTestFalse() {
-        Library library = new Library(new BookGenerator().addBooks());
-        List<String> beforeActual = library.getDetailsOfBooks();
-        List<String> beforeExpected = Arrays.asList("Harry potter and the prisoner of Askaban-J K Rouling-2003\n","Harry potter and the order of pheonix-J K Rouling-2003\n");
-        List<String> afterActual = library.getDetailsOfBooks();
-        List<String> afterExpected = Arrays.asList("Harry potter and the prisoner of Askaban-J K Rouling-2003\n","Harry potter and the order of pheonix-J K Rouling-2003\n");
-        assertAll(
-                ()-> assertFalse(library.checkout("Harry potter and the prisoner of Askaban...")),
-                ()-> assertEquals(beforeExpected,beforeActual),
-                ()-> assertEquals(afterExpected,afterActual),
-                ()-> assertEquals(afterActual,beforeActual)
-        );
+        assertFalse(library.checkoutBook("Harry potter and the prisoner of Askaban..."));
+
 
 
     }
@@ -70,9 +54,8 @@ class LibraryTest {
     @DisplayName("Should return true for returning a book that was checked out")
     @Test
     void returnTestTrue() {
-        Library library = new Library(new BookGenerator().addBooks());
         assertAll(
-                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban")),
+                ()->assertTrue(library.checkoutBook("Harry potter and the prisoner of Askaban")),
                 ()->assertTrue(library.returnBook("Harry potter and the prisoner of Askaban"))
         );
 
@@ -82,24 +65,22 @@ class LibraryTest {
     @DisplayName("Should return false for returning a book that wasn't checked out but is part of the list of books")
     @Test
     void returnTestFalseBookNotCheckedOut() {
-        Library library = new Library(new BookGenerator().addBooks());
-        assertAll(
-                ()-> assertFalse(library.returnBook("Harry potter and the prisoner of Askaban"))
-
-        );
-
-
+        assertFalse(library.returnBook("Harry potter and the prisoner of Askaban"));
     }
 
     @DisplayName("Should return false for returning a book that wasn't part of the list of books")
     @Test
     void returnTestFalseBookNotPresentInLibrary() {
-        Library library = new Library(new BookGenerator().addBooks());
-        assertAll(
-                ()-> assertFalse(library.returnBook("Harry potter and the prisoner of Askaban...."))
-
-        );
+        assertFalse(library.returnBook("Harry potter and the prisoner of Askaban...."));
 
 
+
+    }
+
+    @Test
+    void getDetailsOfMovies() {
+        List<String> movies = library.getDetailsOfMovies();
+        List<String> expected = Arrays.asList("Silver linings playbook-2012-David O Russel-8\n","American Hustle-2013-David O Russel-7\n");
+        assertEquals(expected,movies);
     }
 }
