@@ -14,16 +14,8 @@ class LibraryTest {
 
     @BeforeEach
     public void init() {
-        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
+        library = new Library(new BookAndMovieGenerator().generate());
 
-    }
-
-
-    @DisplayName("two libraries with same list of books should be equal")
-    @Test
-    void equalsTest() {
-        Library library2 = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
-        assertEquals(library,library2);
     }
 
     @Test
@@ -33,19 +25,19 @@ class LibraryTest {
         assertEquals(expected,titles);
     }
 
-    @DisplayName("Should return true for checkoutBook for a book that exists in the library")
+    @DisplayName("Should return true for checkout for a book that exists in the library")
     @Test
-    void checkoutTestTrue() {
-        assertTrue(library.checkoutBook("Harry potter and the prisoner of Askaban"));
+    void checkoutBookTestTrue() {
+        assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK));
 
 
 
     }
 
-    @DisplayName("Should return false for checkoutBook for a book that doesn't exist in the library")
+    @DisplayName("Should return false for checkout for a book that doesn't exist in the library")
     @Test
-    void checkoutTestFalse() {
-        assertFalse(library.checkoutBook("Harry potter and the prisoner of Askaban..."));
+    void checkoutBookTestFalse() {
+        assertFalse(library.checkout("Harry potter and the prisoner of Askaban...",ItemType.BOOK));
 
 
 
@@ -55,8 +47,8 @@ class LibraryTest {
     @Test
     void returnTestTrue() {
         assertAll(
-                ()->assertTrue(library.checkoutBook("Harry potter and the prisoner of Askaban")),
-                ()->assertTrue(library.returnBook("Harry potter and the prisoner of Askaban"))
+                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK)),
+                ()->assertTrue(library.returnItem("Harry potter and the prisoner of Askaban",ItemType.BOOK))
         );
 
 
@@ -65,13 +57,13 @@ class LibraryTest {
     @DisplayName("Should return false for returning a book that wasn't checked out but is part of the list of books")
     @Test
     void returnTestFalseBookNotCheckedOut() {
-        assertFalse(library.returnBook("Harry potter and the prisoner of Askaban"));
+        assertFalse(library.returnItem("Harry potter and the prisoner of Askaban",ItemType.BOOK));
     }
 
     @DisplayName("Should return false for returning a book that wasn't part of the list of books")
     @Test
     void returnTestFalseBookNotPresentInLibrary() {
-        assertFalse(library.returnBook("Harry potter and the prisoner of Askaban...."));
+        assertFalse(library.returnItem("Harry potter and the prisoner of Askaban....",ItemType.BOOK));
 
 
 
@@ -82,5 +74,23 @@ class LibraryTest {
         List<String> movies = library.getDetailsOfMovies();
         List<String> expected = Arrays.asList("Silver linings playbook-2012-David O Russel-8\n","American Hustle-2013-David O Russel-7\n");
         assertEquals(expected,movies);
+    }
+
+    @DisplayName("Should return true for checkout for a movie that exists in the library")
+    @Test
+    void checkoutMovieTestTrue() {
+        assertTrue(library.checkout("American Hustle",ItemType.MOVIE));
+
+
+
+    }
+
+    @DisplayName("Should return false for checkout for a movie that doesn't exist in the library")
+    @Test
+    void checkoutMovieTestFalse() {
+        assertFalse(library.checkout("American Hustle....",ItemType.MOVIE));
+
+
+
     }
 }

@@ -17,7 +17,7 @@ public class BibliotecaApplication {
         LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(
                 new OutputDriver(),
                 new InputDriver(),
-                new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies()));
+                new Library(new BookAndMovieGenerator().generate()));
         libraryManagementSystem.printWelcomeMessage();
         libraryManagementSystem.menuOperation();
    }

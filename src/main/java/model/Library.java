@@ -2,72 +2,62 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Library {
 
-    private final List<Book> allBooks;
-    private final List<Book> currentBooks;
-    private final List<Movie> allMovies;
-    private final List<Movie> currentMovies;
+    private final List<Item> allItems;
+    private final List<Item> currentItems;
 
-    public Library(List<Book> books, List<Movie> movies) {
-        this.allBooks = books;
-        currentBooks = new ArrayList<>(allBooks);
-        this.allMovies = movies;
-        currentMovies = new ArrayList<>(allMovies);
+    public Library(List<Item> items) {
+        this.allItems = items;
+        currentItems = new ArrayList<>(items);
     }
 
     public List<String> getDetailsOfBooks() {
         List<String> details = new ArrayList<>();
-        for (Book book : currentBooks) {
-            details.add(book.toString());
+        for (Item item : currentItems) {
+            if(item.getType() == ItemType.BOOK) {
+                details.add(item.toString());
+            }
         }
         return details;
     }
 
     public List<String> getDetailsOfMovies() {
         List<String> details = new ArrayList<>();
-        for (Movie movie : currentMovies) {
-            details.add(movie.toString());
+        for (Item item : currentItems) {
+            if(item.getType() == ItemType.MOVIE) {
+                details.add(item.toString());
+            }
         }
         return details;
     }
 
-    public boolean checkoutBook(String requestedTitle) {
-        Book requestedBook = new Book(requestedTitle,"unknown Author", new Year(0));
-        if(currentBooks.contains(requestedBook)) {
-            currentBooks.remove(requestedBook);
+    public boolean checkout(String requestedTitle, ItemType itemType) {
+        Item requestedItem = new Item(requestedTitle,itemType);
+        if(currentItems.contains(requestedItem)) {
+            currentItems.remove(requestedItem);
             return true;
         }
         return false;
     }
 
-    public boolean returnBook(String requestedTitle) {
-        Book requestedBook = new Book(requestedTitle,"unknown Author", new Year(0));
-        if(allBooks.contains(requestedBook) && !currentBooks.contains(requestedBook)) {
-            currentBooks.add(requestedBook);
+    public boolean returnItem(String requestedTitle, ItemType itemType) {
+        Item requestedItem = new Item(requestedTitle,itemType);
+        if(allItems.contains(requestedItem) && !currentItems.contains(requestedItem)) {
+            getItemFromListAndAdd(requestedItem);
             return true;
         }
         return false;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Library library = (Library) o;
-        return allBooks.equals(library.allBooks);
+    private void getItemFromListAndAdd(Item requestedItem) {
+        for (Item item: allItems) {
+            if(item.equals(requestedItem)) {
+                currentItems.add(item);
+
+            }
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(allBooks);
-    }
-
-
-    @Override
-    public String toString() {
-        return "" + allBooks;
-    }
 }

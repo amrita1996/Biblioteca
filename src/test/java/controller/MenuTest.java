@@ -25,7 +25,7 @@ class MenuTest {
     public void init() {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
-        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
+        library = new Library(new BookAndMovieGenerator().generate());
         libraryManagementSystem = new LibraryManagementSystem(output,input,library);
 
     }
@@ -46,7 +46,7 @@ class MenuTest {
         verify(output).print(menu.ordinal()+". "+menu.getString());
     }
 
-    @DisplayName("Should print the message for checkoutBook")
+    @DisplayName("Should print the message for checkout")
     @Test
     void printMessageForCheckOut() {
         Menu menu = Menu.CHECKOUT_BOOK;
@@ -96,7 +96,7 @@ class MenuTest {
 
     }
 
-    @DisplayName("Should checkoutBook a book that exists and should display message")
+    @DisplayName("Should checkout a book that exists and should display message")
     @Test
     void performCheckoutTrue() {
         Menu menu = Menu.CHECKOUT_BOOK;
@@ -107,7 +107,7 @@ class MenuTest {
 
     }
 
-    @DisplayName("Should not checkoutBook a book that doesn't exist and should display message")
+    @DisplayName("Should not checkout a book that doesn't exist and should display message")
     @Test
     void performCheckoutFalse() {
         Menu menu = Menu.CHECKOUT_BOOK;
@@ -131,7 +131,7 @@ class MenuTest {
 
     }
 
-    @DisplayName("Should not checkoutBook a book that doesn't exist and should display message")
+    @DisplayName("Should not checkout a book that doesn't exist and should display message")
     @Test
     void performReturnFalse() {
         Menu menu = Menu.RETURN_BOOK;

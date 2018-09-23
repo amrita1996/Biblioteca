@@ -1,9 +1,6 @@
 package controller;
 
-import model.Book;
-import model.BookAndMovieGenerator;
-import model.Library;
-import model.Movie;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import view.Input;
 import view.InputDriver;
@@ -13,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -27,7 +25,7 @@ public class LibraryManagementSystemTest {
     public void init() {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
-        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
+        library = new Library(new BookAndMovieGenerator().generate());
         libraryManagementSystem = new LibraryManagementSystem(output,input,library);
 
     }
@@ -42,10 +40,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and print list of books when 1 is pressed")
     @Test
     public void menuOperationToPrintListOfBooks() {
-        List<String> books = new ArrayList<>();
-        for (Book book:new BookAndMovieGenerator().addBooks()) {
-            books.add(book.toString());
-        }
+        List<String> books = Arrays.asList("Harry potter and the prisoner of Askaban-J K Rouling-2003","Harry potter and the order of pheonix-J K Rouling-2003");
 
         when(input.read()).thenReturn("1").thenReturn("0");
         libraryManagementSystem.menuOperation();
@@ -62,8 +57,8 @@ public class LibraryManagementSystemTest {
     @Test
     public void menuOperationToPrintListOfMovies() {
         List<String> movies = new ArrayList<>();
-        for (Movie movie:new BookAndMovieGenerator().addMovies()) {
-            movies.add(movie.toString());
+        for (Item item:new BookAndMovieGenerator().generate()) {
+            movies.add(item.toString());
         }
 
         when(input.read()).thenReturn("4").thenReturn("0");
@@ -103,7 +98,7 @@ public class LibraryManagementSystemTest {
 
     }
 
-    @DisplayName("should print a menu and checkoutBook a book that exists and print checkoutBook successfull")
+    @DisplayName("should print a menu and checkout a book that exists and print checkout successfull")
     @Test
     public void menuOperationToCheckoutValidBook() {
 
@@ -116,7 +111,7 @@ public class LibraryManagementSystemTest {
 
     }
 
-    @DisplayName("should print a menu and shouldn't checkoutBook a book that doesn't exist and print checkoutBook unsuccessfull")
+    @DisplayName("should print a menu and shouldn't checkout a book that doesn't exist and print checkout unsuccessfull")
     @Test
     public void menuOperationToCheckoutInValidBook() {
 

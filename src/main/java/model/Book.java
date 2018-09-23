@@ -1,15 +1,11 @@
 package model;
 
-
-import java.util.Objects;
-
-public class Book {
-    private String title;
+public class Book extends Item {
     private String author;
     private Year year;
 
     public Book(String title, String author, Year year) {
-        this.title = title;
+        super(title,ItemType.BOOK);
         this.author = author;
         this.year = year;
     }
@@ -19,18 +15,5 @@ public class Book {
         return "" + title + "-" + author + "-" + year + "\n";
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return title.equals(book.title);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title);
-    }
 
 }

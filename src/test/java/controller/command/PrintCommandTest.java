@@ -1,6 +1,7 @@
-package controller;
+package controller.command;
 
 import model.BookAndMovieGenerator;
+import model.ItemType;
 import model.Library;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,17 +11,17 @@ import view.Output;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class PrintBooksCommandTest {
+class PrintCommandTest {
 
     @DisplayName("Should display list of books")
     @Test
     void perform() {
         Output output = mock(Output.class);
         Input input = mock(Input.class);
-        Library library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
-        PrintBooksCommand printBooksCommand = new PrintBooksCommand();
+        Library library = new Library(new BookAndMovieGenerator().generate());
+        PrintCommand printCommand = new PrintCommand(ItemType.BOOK);
 
-        printBooksCommand.perform(library,output,input);
+        printCommand.perform(library,output,input);
 
         verify(output).splitAndPrint("Title-Author-Year\n");
         verify(output).print(library.getDetailsOfBooks());

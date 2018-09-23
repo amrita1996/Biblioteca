@@ -1,5 +1,7 @@
 package controller;
 
+import controller.command.*;
+import model.ItemType;
 import model.Library;
 import view.Input;
 import view.Output;
@@ -12,11 +14,12 @@ public enum Menu {
         }
 
     },
-    PRINT_BOOKS("Print the list of books",new PrintBooksCommand()),
-    CHECKOUT_BOOK("Checkout a book",new CheckoutBookCommand()),
-    RETURN_BOOK("Return a book",new ReturnBookCommand()),
-    PRINT_MOVIES("Print the list of movies",new PrintMoviesCommand()),
-    CHECKOUT_MOVIE("Checkout a movie",new CheckoutMovieCommand()),
+    PRINT_BOOKS("Print the list of books",new PrintCommand(ItemType.BOOK)),
+    CHECKOUT_BOOK("Checkout a book",new CheckoutCommand(ItemType.BOOK)),
+    RETURN_BOOK("Return a book",new ReturnCommand(ItemType.BOOK)),
+    PRINT_MOVIES("Print the list of movies",new PrintCommand(ItemType.MOVIE)),
+    CHECKOUT_MOVIE("Checkout a movie",new CheckoutCommand(ItemType.MOVIE)),
+    RETURN_MOVIE("Return a movie",new ReturnCommand(ItemType.MOVIE)),
     DEFAULT("Select a valid option!",null) {
         @Override
         public void perform(Library library, Output output, Input input) {

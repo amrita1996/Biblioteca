@@ -1,6 +1,7 @@
-package controller;
+package controller.command;
 
 import model.BookAndMovieGenerator;
+import model.ItemType;
 import model.Library;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,23 +13,25 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class CheckoutBookCommandTest {
+class CheckoutCommandTest {
     Output output;
     Input input ;
     Library library ;
-    CheckoutBookCommand checkoutBookCommand;
+    CheckoutCommand checkoutBookCommand;
+    CheckoutCommand checkoutMovieCommand;
 
     @BeforeEach
     void init() {
         output = mock(Output.class);
         input = mock(Input.class);
-        library = new Library(new BookAndMovieGenerator().addBooks(),new BookAndMovieGenerator().addMovies());
-        checkoutBookCommand = new CheckoutBookCommand();
+        library = new Library(new BookAndMovieGenerator().generate());
+        checkoutBookCommand = new CheckoutCommand(ItemType.BOOK);
+        checkoutMovieCommand = new CheckoutCommand(ItemType.MOVIE);
     }
 
     @DisplayName("Should return a book that was checked out")
     @Test
-    void returnBookValidCase() {
+    void checkoutBookValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         checkoutBookCommand.perform(library,output,input);
@@ -41,7 +44,7 @@ class CheckoutBookCommandTest {
 
     @DisplayName("Should not return a book that was not checked out")
     @Test
-    void returnBookInValidCase() {
+    void checkoutBookInValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban....");
         checkoutBookCommand.perform(library,output,input);
