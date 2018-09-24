@@ -13,7 +13,7 @@ public class PrintCommand implements Command {
     }
 
     @Override
-    public void perform(Library library, Output output, Input input) {
+    public void perform(Library library, Output output, Input input, Authenticator authenticator) {
         if (itemType == ItemType.BOOK) {
             printBooks(library, output);
         } else {

@@ -1,4 +1,6 @@
+import controller.CredentialBuilder;
 import controller.LibraryManagementSystem;
+import controller.command.Authenticator;
 import model.BookAndMovieGenerator;
 import model.Library;
 import view.InputDriver;
@@ -17,7 +19,8 @@ public class BibliotecaApplication {
         LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem(
                 new OutputDriver(),
                 new InputDriver(),
-                new Library(new BookAndMovieGenerator().generate()));
+                new Library(new BookAndMovieGenerator().generate()),
+                new Authenticator(new CredentialBuilder().generate()));
         libraryManagementSystem.printWelcomeMessage();
         libraryManagementSystem.menuOperation();
    }

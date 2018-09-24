@@ -1,5 +1,6 @@
 package controller.command;
 
+import controller.CredentialBuilder;
 import model.BookAndMovieGenerator;
 import model.ItemType;
 import model.Library;
@@ -19,11 +20,13 @@ class CheckoutCommandTest {
     Library library ;
     CheckoutCommand checkoutBookCommand;
     CheckoutCommand checkoutMovieCommand;
+    private Authenticator authenticator;
 
     @BeforeEach
     void init() {
         output = mock(Output.class);
         input = mock(Input.class);
+        authenticator = new Authenticator(new CredentialBuilder().generate());
         library = new Library(new BookAndMovieGenerator().generate());
         checkoutBookCommand = new CheckoutCommand(ItemType.BOOK);
         checkoutMovieCommand = new CheckoutCommand(ItemType.MOVIE);
@@ -34,7 +37,7 @@ class CheckoutCommandTest {
     void checkoutBookValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
-        checkoutBookCommand.perform(library,output,input);
+        checkoutBookCommand.perform(library,output,input, authenticator);
 
         verify(output).print("Enter the title of the item to be checked out : ");
         verify(output).print("Thank you! Enjoy the item.\n");
@@ -47,7 +50,7 @@ class CheckoutCommandTest {
     void checkoutBookInValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban....");
-        checkoutBookCommand.perform(library,output,input);
+        checkoutBookCommand.perform(library,output,input, authenticator);
 
         verify(output).print("Enter the title of the item to be checked out : ");
         verify(output).print("That item is not available.\n");

@@ -1,5 +1,6 @@
 package controller;
 
+import controller.command.Authenticator;
 import model.BookAndMovieGenerator;
 import model.Library;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,13 +19,15 @@ class MenuTest {
     Input input;
     Library library;
     LibraryManagementSystem libraryManagementSystem;
+    Authenticator authenticator;
 
     @BeforeEach
     public void init() {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
         library = new Library(new BookAndMovieGenerator().generate());
-        libraryManagementSystem = new LibraryManagementSystem(output,input,library);
+        authenticator = new Authenticator(new CredentialBuilder().generate());
+        libraryManagementSystem = new LibraryManagementSystem(output,input,library,authenticator);
 
     }
 
@@ -58,7 +61,7 @@ class MenuTest {
     @Test
     void performPrintBooks() {
         Menu menu = Menu.PRINT_BOOKS;
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).splitAndPrint("Title-Author-Year\n");
         verify(output).print(library.getDetailsOfBooks());
 
@@ -68,7 +71,7 @@ class MenuTest {
     @Test
     void performPrintChooseAnotherOption() {
         Menu menu = Menu.DEFAULT;
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print("Select a valid option!");
 
 
@@ -78,7 +81,7 @@ class MenuTest {
     @Test
     void performPrintMovies() {
         Menu menu = Menu.PRINT_MOVIES;
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print(library.getDetailsOfMovies());
 
     }
@@ -87,7 +90,7 @@ class MenuTest {
     @Test
     void performQuit() {
         Menu menu = Menu.QUIT;
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print("Quit !");
 
 
@@ -98,7 +101,7 @@ class MenuTest {
     void performCheckoutTrue() {
         Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print("Thank you! Enjoy the item.\n");
 
 
@@ -109,7 +112,7 @@ class MenuTest {
     void performCheckoutFalse() {
         Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban.....");
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print("That item is not available.\n");
 
 
@@ -121,8 +124,8 @@ class MenuTest {
         Menu menuCheckout = Menu.CHECKOUT_BOOK;
         Menu menuReturn = Menu.RETURN_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
-        menuCheckout.perform(library, output,input);
-        menuReturn.perform(library,output,input);
+        menuCheckout.perform(library, output,input,authenticator);
+        menuReturn.perform(library,output,input,authenticator);
         verify(output).print("Thank you! Enjoy the item.\n");
 
 
@@ -133,7 +136,7 @@ class MenuTest {
     void performReturnFalse() {
         Menu menu = Menu.RETURN_BOOK;
         when(input.read()).thenReturn("Harry potter");
-        menu.perform(library, output,input);
+        menu.perform(library, output,input,authenticator);
         verify(output).print("That is not a valid item to return.\n");
 
 

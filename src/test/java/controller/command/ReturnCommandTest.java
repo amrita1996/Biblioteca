@@ -1,5 +1,6 @@
 package controller.command;
 
+import controller.CredentialBuilder;
 import model.BookAndMovieGenerator;
 import model.ItemType;
 import model.Library;
@@ -17,6 +18,7 @@ class ReturnCommandTest {
     Output output;
     Input input ;
     Library library ;
+    Authenticator authenticator;
     CheckoutCommand checkoutBookCommand;
     ReturnCommand returnBookCommand;
     CheckoutCommand checkoutMovieCommand;
@@ -26,6 +28,7 @@ class ReturnCommandTest {
     void init() {
         output = mock(Output.class);
         input = mock(Input.class);
+        authenticator = new Authenticator(new CredentialBuilder().generate());
         library = new Library(new BookAndMovieGenerator().generate());
         checkoutBookCommand = new CheckoutCommand(ItemType.BOOK);
         returnBookCommand = new ReturnCommand(ItemType.BOOK);
@@ -38,8 +41,8 @@ class ReturnCommandTest {
     void returnBookValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
-        checkoutBookCommand.perform(library,output,input);
-        returnBookCommand.perform(library,output,input);
+        checkoutBookCommand.perform(library,output,input, authenticator);
+        returnBookCommand.perform(library,output,input, authenticator);
 
         verify(output).print("Enter the title of the item to be returned : ");
         verify(output).print("Thank you for returning the item.\n");
@@ -52,7 +55,7 @@ class ReturnCommandTest {
     void returnBookInValidCase() {
 
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
-        returnBookCommand.perform(library,output,input);
+        returnBookCommand.perform(library,output,input, authenticator);
 
         verify(output).print("Enter the title of the item to be returned : ");
         verify(output).print("That is not a valid item to return.\n");

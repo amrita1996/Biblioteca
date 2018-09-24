@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Authenticator {
     private final Set<Credential> credentials;
+    private User sessionUser;
 
     public Authenticator(Set<Credential> credentials) {
         this.credentials = credentials;
@@ -13,7 +14,8 @@ public class Authenticator {
     public Optional<User> authenticate(Credential given) {
         for (Credential credential: credentials ) {
             if (credential.equals(given)) {
-                return Optional.of(credential.getUser());
+                sessionUser = credential.getUser();
+                return Optional.of(sessionUser);
             }
 
         }

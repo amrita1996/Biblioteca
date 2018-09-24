@@ -1,5 +1,6 @@
 package controller.command;
 
+import controller.CredentialBuilder;
 import model.BookAndMovieGenerator;
 import model.ItemType;
 import model.Library;
@@ -20,8 +21,9 @@ class PrintCommandTest {
         Input input = mock(Input.class);
         Library library = new Library(new BookAndMovieGenerator().generate());
         PrintCommand printCommand = new PrintCommand(ItemType.BOOK);
+        Authenticator authenticator = new Authenticator(new CredentialBuilder().generate());
 
-        printCommand.perform(library,output,input);
+        printCommand.perform(library,output,input, authenticator);
 
         verify(output).splitAndPrint("Title-Author-Year\n");
         verify(output).print(library.getDetailsOfBooks());

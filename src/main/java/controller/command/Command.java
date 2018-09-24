@@ -6,5 +6,5 @@ import view.Output;
 
 public interface Command {
 
-    void perform(Library library, Output output, Input input);
+    void perform(Library library, Output output, Input input, Authenticator authenticator);
 }

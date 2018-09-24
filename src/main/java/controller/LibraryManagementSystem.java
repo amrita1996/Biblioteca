@@ -1,22 +1,28 @@
 package controller;
 
+import controller.command.*;
 import model.BookAndMovieGenerator;
 import model.Library;
 import view.Input;
 import view.Output;
+
+import java.util.HashSet;
+import java.util.Set;
 
 //A system that manages books and its details.
 public class LibraryManagementSystem {
     private final String welcomeMessage = "Welcome !";
     private final Output output;
     private final Input input;
-    private Library library;
+    private final Library library;
+    private final Authenticator authenticator;
     Menu menu[] = Menu.values();
 
-    public LibraryManagementSystem(Output output, Input input,Library library) {
+    public LibraryManagementSystem(Output output, Input input,Library library, Authenticator authenticator) {
         this.output = output;
         this.input = input;
         this.library = library;
+        this.authenticator = authenticator;
     }
 
     public void printWelcomeMessage() {
@@ -30,7 +36,7 @@ public class LibraryManagementSystem {
             printMenu();
             option = getUserInput();
             option = Menu.values().length-1 <= option ? Menu.values().length-1 : option;
-            menu[option].perform(library,output,input);
+            menu[option].perform(library,output,input,authenticator);
         } while (option != 0);
     }
 
@@ -45,5 +51,7 @@ public class LibraryManagementSystem {
     private int getUserInput() {
         return Integer.parseInt(input.read());
     }
+
+
 
 }

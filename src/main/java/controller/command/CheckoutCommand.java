@@ -13,7 +13,7 @@ public class CheckoutCommand implements Command {
     }
 
     @Override
-    public void perform(Library library, Output output, Input input) {
+    public void perform(Library library, Output output, Input input, Authenticator authenticator) {
         output.print("Enter the title of the item to be checked out : ");
         String requestedTitle = input.read();
         String status = library.checkout(requestedTitle,itemType) ? "Thank you! Enjoy the item.\n" : "That item is not available.\n";

@@ -1,5 +1,6 @@
 package controller;
 
+import controller.command.Authenticator;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import view.Input;
@@ -19,6 +20,7 @@ public class LibraryManagementSystemTest {
     Output output;
     Input input;
     Library library;
+    Authenticator authenticator;
     LibraryManagementSystem libraryManagementSystem;
 
     @BeforeEach
@@ -26,7 +28,8 @@ public class LibraryManagementSystemTest {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
         library = new Library(new BookAndMovieGenerator().generate());
-        libraryManagementSystem = new LibraryManagementSystem(output,input,library);
+        authenticator = new Authenticator(new CredentialBuilder().generate());
+        libraryManagementSystem = new LibraryManagementSystem(output,input,library,authenticator);
 
     }
 

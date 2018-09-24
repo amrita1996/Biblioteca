@@ -9,7 +9,7 @@ import view.Output;
 public enum Menu {
     QUIT("Quit",null) {
         @Override
-        public void perform(Library library, Output output, Input input) {
+        public void perform(Library library, Output output, Input input, Authenticator authenticator) {
             output.print("Quit !");
         }
 
@@ -22,7 +22,7 @@ public enum Menu {
     RETURN_MOVIE("Return a movie",new ReturnCommand(ItemType.MOVIE)),
     DEFAULT("Select a valid option!",null) {
         @Override
-        public void perform(Library library, Output output, Input input) {
+        public void perform(Library library, Output output, Input input, Authenticator authenticator) {
             output.print("Select a valid option!");
         }
 
@@ -45,8 +45,8 @@ public enum Menu {
         return string;
     }
 
-    void perform(Library library, Output output, Input input){
-        this.action.perform(library,output,input);
+    void perform(Library library, Output output, Input input, Authenticator authenticator){
+        this.action.perform(library,output,input,authenticator);
     }
     void print(Output output) {
         output.print(this.ordinal()+". "+getString());
