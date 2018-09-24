@@ -36,8 +36,8 @@ class CheckoutCommandTest {
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         checkoutBookCommand.perform(library,output,input);
 
-        verify(output).print("Enter the title of the book to be checked out : ");
-        verify(output).print("Thank you! Enjoy the book.\n");
+        verify(output).print("Enter the title of the item to be checked out : ");
+        verify(output).print("Thank you! Enjoy the item.\n");
 
 
     }
@@ -49,8 +49,8 @@ class CheckoutCommandTest {
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban....");
         checkoutBookCommand.perform(library,output,input);
 
-        verify(output).print("Enter the title of the book to be checked out : ");
-        verify(output).print("That book is not available.\n");
+        verify(output).print("Enter the title of the item to be checked out : ");
+        verify(output).print("That item is not available.\n");
 
 
     }

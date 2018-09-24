@@ -41,8 +41,8 @@ class ReturnCommandTest {
         checkoutBookCommand.perform(library,output,input);
         returnBookCommand.perform(library,output,input);
 
-        verify(output).print("Enter the title of the book to be returned : ");
-        verify(output).print("Thank you for returning the book.\n");
+        verify(output).print("Enter the title of the item to be returned : ");
+        verify(output).print("Thank you for returning the item.\n");
 
 
     }
@@ -54,8 +54,8 @@ class ReturnCommandTest {
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         returnBookCommand.perform(library,output,input);
 
-        verify(output).print("Enter the title of the book to be returned : ");
-        verify(output).print("That is not a valid book to return.\n");
+        verify(output).print("Enter the title of the item to be returned : ");
+        verify(output).print("That is not a valid item to return.\n");
 
 
     }

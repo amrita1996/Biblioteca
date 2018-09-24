@@ -10,9 +10,7 @@ import view.InputDriver;
 import view.Output;
 import view.OutputDriver;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class MenuTest {
 
@@ -76,12 +74,11 @@ class MenuTest {
 
     }
 
-    @DisplayName("Should print the list of books")
+    @DisplayName("Should print the list of movies")
     @Test
     void performPrintMovies() {
         Menu menu = Menu.PRINT_MOVIES;
         menu.perform(library, output,input);
-        verify(output).splitAndPrint("Name-Year-Director-Rating");
         verify(output).print(library.getDetailsOfMovies());
 
     }
@@ -102,7 +99,7 @@ class MenuTest {
         Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         menu.perform(library, output,input);
-        verify(output).print("Thank you! Enjoy the book.\n");
+        verify(output).print("Thank you! Enjoy the item.\n");
 
 
     }
@@ -113,7 +110,7 @@ class MenuTest {
         Menu menu = Menu.CHECKOUT_BOOK;
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban.....");
         menu.perform(library, output,input);
-        verify(output).print("That book is not available.\n");
+        verify(output).print("That item is not available.\n");
 
 
     }
@@ -126,7 +123,7 @@ class MenuTest {
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
         menuCheckout.perform(library, output,input);
         menuReturn.perform(library,output,input);
-        verify(output).print("Thank you! Enjoy the book.\n");
+        verify(output).print("Thank you! Enjoy the item.\n");
 
 
     }
@@ -137,7 +134,7 @@ class MenuTest {
         Menu menu = Menu.RETURN_BOOK;
         when(input.read()).thenReturn("Harry potter");
         menu.perform(library, output,input);
-        verify(output).print("That is not a valid book to return.\n");
+        verify(output).print("That is not a valid item to return.\n");
 
 
     }
