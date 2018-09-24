@@ -34,7 +34,7 @@ class LoginCommandTest {
     @DisplayName("Should authenticate a user with valid credentials")
     @Test
     void authenticationTest() {
-        when(input.read()).thenReturn("123-45678").thenReturn("password1");
+        when(input.read()).thenReturn("123-4567").thenReturn("password1");
         loginCommand.perform(library,output,input, authenticator);
         verify(output).print("\nEnter the library number(xxx-xxxx) : ");
         verify(output).print("\nEnter the password : ");

@@ -1,6 +1,7 @@
 package controller;
 
 import controller.command.Authenticator;
+import controller.command.User;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import view.Input;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -21,6 +23,7 @@ public class LibraryManagementSystemTest {
     Input input;
     Library library;
     Authenticator authenticator;
+    User user;
     LibraryManagementSystem libraryManagementSystem;
 
     @BeforeEach
@@ -28,7 +31,8 @@ public class LibraryManagementSystemTest {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
         library = new Library(new BookAndMovieGenerator().generate());
-        authenticator = new Authenticator(new CredentialBuilder().generate());
+        user = new User("Amrita","xyz@gmail.com","2834528");
+        authenticator = mock(Authenticator.class);
         libraryManagementSystem = new LibraryManagementSystem(output,input,library,authenticator);
 
     }
@@ -101,7 +105,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and checkout a book that exists and print checkout successfull")
     @Test
     public void menuOperationToCheckoutValidBook() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
         libraryManagementSystem.menuOperation();
 
@@ -115,7 +119,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and shouldn't checkout a book that doesn't exist and print checkout unsuccessfull")
     @Test
     public void menuOperationToCheckoutInValidBook() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban....").thenReturn("0");
         libraryManagementSystem.menuOperation();
 
@@ -128,7 +132,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and return a book that was checked out and print thank you for returning")
     @Test
     public void menuOperationToReturnValidBook() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("2").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
         libraryManagementSystem.menuOperation();
 
@@ -141,7 +145,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and shouldn't return a book that wasn't checked out and print return unsuccessfull")
     @Test
     public void menuOperationToReturnInValidBook() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban").thenReturn("0");
         libraryManagementSystem.menuOperation();
 
@@ -154,7 +158,7 @@ public class LibraryManagementSystemTest {
     @DisplayName("should print a menu and shouldn't return a book that isn't present and print return unsuccessfull")
     @Test
     public void menuOperationToReturnInValidBookNotPresent() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("3").thenReturn("Harry potter and the prisoner of Askaban...").thenReturn("0");
         libraryManagementSystem.menuOperation();
 

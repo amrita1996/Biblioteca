@@ -1,13 +1,9 @@
 package controller;
 
 import controller.command.*;
-import model.BookAndMovieGenerator;
 import model.Library;
 import view.Input;
 import view.Output;
-
-import java.util.HashSet;
-import java.util.Set;
 
 //A system that manages books and its details.
 public class LibraryManagementSystem {

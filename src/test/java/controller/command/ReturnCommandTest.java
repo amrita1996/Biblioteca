@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import view.Input;
 import view.Output;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +21,7 @@ class ReturnCommandTest {
     Input input ;
     Library library ;
     Authenticator authenticator;
+    User user;
     CheckoutCommand checkoutBookCommand;
     ReturnCommand returnBookCommand;
     CheckoutCommand checkoutMovieCommand;
@@ -28,7 +31,8 @@ class ReturnCommandTest {
     void init() {
         output = mock(Output.class);
         input = mock(Input.class);
-        authenticator = new Authenticator(new CredentialBuilder().generate());
+        user = new User("Amrita","xyz@gmail.com","6345716345");
+        authenticator = mock(Authenticator.class);
         library = new Library(new BookAndMovieGenerator().generate());
         checkoutBookCommand = new CheckoutCommand(ItemType.BOOK);
         returnBookCommand = new ReturnCommand(ItemType.BOOK);
@@ -40,6 +44,7 @@ class ReturnCommandTest {
     @Test
     void returnBookValidCase() {
 
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
         checkoutBookCommand.perform(library,output,input, authenticator);
         returnBookCommand.perform(library,output,input, authenticator);
@@ -53,7 +58,7 @@ class ReturnCommandTest {
     @DisplayName("Should not return a book that was not checked out")
     @Test
     void returnBookInValidCase() {
-
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         returnBookCommand.perform(library,output,input, authenticator);
 

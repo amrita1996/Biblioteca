@@ -1,5 +1,6 @@
 package model;
 
+import controller.command.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
     Library library;
+    User user;
 
     @BeforeEach
     public void init() {
         library = new Library(new BookAndMovieGenerator().generate());
+        user = new User("Amrita","xyz@gmail.com","81237492364823");
 
     }
 

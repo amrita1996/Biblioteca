@@ -14,9 +14,14 @@ public class ReturnCommand implements Command {
 
     @Override
     public void perform(Library library, Output output, Input input, Authenticator authenticator) {
-        output.print("Enter the title of the item to be returned : ");
-        String requestedTitle = input.read();
-        String status = library.returnItem(requestedTitle,itemType) ? "Thank you for returning the item.\n" : "That is not a valid item to return.\n";
-        output.print(status);
+        if(authenticator.getSessionUser().isPresent()) {
+            output.print("Enter the title of the item to be returned : ");
+            String requestedTitle = input.read();
+            String status = library.returnItem(requestedTitle, itemType) ? "Thank you for returning the item.\n" : "That is not a valid item to return.\n";
+            output.print(status);
+        }
+        else {
+            output.print("Please login to return item..");
+        }
     }
 }

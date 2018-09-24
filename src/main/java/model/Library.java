@@ -1,16 +1,22 @@
 package model;
 
+import controller.command.User;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Library {
 
     private final List<Item> allItems;
     private final List<Item> currentItems;
+    private final Set<User> users;
 
     public Library(List<Item> items) {
         this.allItems = items;
         currentItems = new ArrayList<>(items);
+        users = new HashSet<>();
     }
 
     public List<String> getDetailsOfBooks() {

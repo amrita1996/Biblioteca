@@ -1,6 +1,7 @@
 package controller;
 
 import controller.command.Authenticator;
+import controller.command.User;
 import model.BookAndMovieGenerator;
 import model.Library;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,8 @@ import view.InputDriver;
 import view.Output;
 import view.OutputDriver;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 class MenuTest {
@@ -19,6 +22,7 @@ class MenuTest {
     Input input;
     Library library;
     LibraryManagementSystem libraryManagementSystem;
+    User user;
     Authenticator authenticator;
 
     @BeforeEach
@@ -26,7 +30,8 @@ class MenuTest {
         output = mock(OutputDriver.class);
         input = mock(InputDriver.class);
         library = new Library(new BookAndMovieGenerator().generate());
-        authenticator = new Authenticator(new CredentialBuilder().generate());
+        user = new User("Amrita","xyz@gmail.com","4663547623");
+        authenticator = mock(Authenticator.class);
         libraryManagementSystem = new LibraryManagementSystem(output,input,library,authenticator);
 
     }
@@ -100,6 +105,7 @@ class MenuTest {
     @Test
     void performCheckoutTrue() {
         Menu menu = Menu.CHECKOUT_BOOK;
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban");
         menu.perform(library, output,input,authenticator);
         verify(output).print("Thank you! Enjoy the item.\n");
@@ -111,6 +117,7 @@ class MenuTest {
     @Test
     void performCheckoutFalse() {
         Menu menu = Menu.CHECKOUT_BOOK;
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban.....");
         menu.perform(library, output,input,authenticator);
         verify(output).print("That item is not available.\n");
@@ -123,6 +130,7 @@ class MenuTest {
     void performReturnTrue() {
         Menu menuCheckout = Menu.CHECKOUT_BOOK;
         Menu menuReturn = Menu.RETURN_BOOK;
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter and the prisoner of Askaban").thenReturn("Harry potter and the prisoner of Askaban");
         menuCheckout.perform(library, output,input,authenticator);
         menuReturn.perform(library,output,input,authenticator);
@@ -135,6 +143,7 @@ class MenuTest {
     @Test
     void performReturnFalse() {
         Menu menu = Menu.RETURN_BOOK;
+        when(authenticator.getSessionUser()).thenReturn(Optional.of(user));
         when(input.read()).thenReturn("Harry potter");
         menu.perform(library, output,input,authenticator);
         verify(output).print("That is not a valid item to return.\n");
