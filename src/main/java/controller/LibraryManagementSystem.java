@@ -38,8 +38,11 @@ public class LibraryManagementSystem {
 
     private void printMenu() {
         output.print("\n\nMENU\n");
-        for (Menu menuOption : menu) {
-            menuOption.print(output);
+        for (int i = 0; i < Menu.values().length-2 ; i++) {
+            menu[i].print(output);
+        }
+        if(authenticator.getSessionUser().isPresent()) {
+            menu[Menu.values().length-2].print(output);
         }
         output.print("Choose an option : ");
     }

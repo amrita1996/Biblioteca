@@ -21,6 +21,7 @@ public enum Menu {
     CHECKOUT_MOVIE("Checkout a movie",new CheckoutCommand(ItemType.MOVIE)),
     RETURN_MOVIE("Return a movie",new ReturnCommand(ItemType.MOVIE)),
     LOGIN("Login with your credentials", new LoginCommand()),
+    VIEW_USER_DETAILS("View your credentials", new ViewUserDetailsCommand()),
     DEFAULT("Select a valid option!",null) {
         @Override
         public void perform(Library library, Output output, Input input, Authenticator authenticator) {

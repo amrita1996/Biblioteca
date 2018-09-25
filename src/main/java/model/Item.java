@@ -26,4 +26,12 @@ public class Item {
     public ItemType getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "title='" + title + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }
