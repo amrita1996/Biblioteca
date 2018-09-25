@@ -31,7 +31,7 @@ class LibraryTest {
     @DisplayName("Should return true for checkout for a book that exists in the library")
     @Test
     void checkoutBookTestTrue() {
-        assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK));
+        assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK, user));
 
 
 
@@ -40,7 +40,7 @@ class LibraryTest {
     @DisplayName("Should return false for checkout for a book that doesn't exist in the library")
     @Test
     void checkoutBookTestFalse() {
-        assertFalse(library.checkout("Harry potter and the prisoner of Askaban...",ItemType.BOOK));
+        assertFalse(library.checkout("Harry potter and the prisoner of Askaban...",ItemType.BOOK, user));
 
 
 
@@ -50,7 +50,7 @@ class LibraryTest {
     @Test
     void returnTestTrue() {
         assertAll(
-                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK)),
+                ()->assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK, user)),
                 ()->assertTrue(library.returnItem("Harry potter and the prisoner of Askaban",ItemType.BOOK))
         );
 
@@ -82,7 +82,7 @@ class LibraryTest {
     @DisplayName("Should return true for checkout for a movie that exists in the library")
     @Test
     void checkoutMovieTestTrue() {
-        assertTrue(library.checkout("American Hustle",ItemType.MOVIE));
+        assertTrue(library.checkout("American Hustle",ItemType.MOVIE,user));
 
 
 
@@ -91,7 +91,17 @@ class LibraryTest {
     @DisplayName("Should return false for checkout for a movie that doesn't exist in the library")
     @Test
     void checkoutMovieTestFalse() {
-        assertFalse(library.checkout("American Hustle....",ItemType.MOVIE));
+        assertFalse(library.checkout("American Hustle....",ItemType.MOVIE, user));
+
+
+
+    }
+
+    @DisplayName("Should return true for checkout for a book that exists in the library")
+    @Test
+    void checkoutBookAndAddUser() {
+        assertTrue(library.checkout("Harry potter and the prisoner of Askaban",ItemType.BOOK, user));
+        assertTrue(user.containsItem(new Item("Harry potter and the prisoner of Askaban",ItemType.BOOK)));
 
 
 

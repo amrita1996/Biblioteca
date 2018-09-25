@@ -39,10 +39,12 @@ public class Library {
         return details;
     }
 
-    public boolean checkout(String requestedTitle, ItemType itemType) {
+    public boolean checkout(String requestedTitle, ItemType itemType, User user) {
         Item requestedItem = new Item(requestedTitle,itemType);
         if(currentItems.contains(requestedItem)) {
             currentItems.remove(requestedItem);
+            users.add(user);
+            user.addItem(requestedItem);
             return true;
         }
         return false;

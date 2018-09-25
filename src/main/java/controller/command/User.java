@@ -22,6 +22,10 @@ public class User {
     public void addItem(Item item) {
         items.add(item);
     }
+
+    public boolean containsItem(Item item) {
+        return items.contains(item);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,6 +34,14 @@ public class User {
         return name.equals(user.name) &&
                 email.equals(user.email) &&
                 phoneNumber.equals(user.phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return  "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", items=" + items;
     }
 
     @Override
